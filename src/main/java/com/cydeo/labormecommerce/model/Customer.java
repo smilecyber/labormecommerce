@@ -9,9 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Customer {
-    @Id
-    private Long id;
+public class Customer extends BaseEntity {
     private String firstName;
     private String lastName;
     private String userName;

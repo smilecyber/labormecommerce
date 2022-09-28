@@ -10,10 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Cart {
-    @Id
-    private Long id;
-
+public class Cart extends BaseEntity{
     @ManyToOne
     private Customer customer;
     @ManyToOne

@@ -13,9 +13,7 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
-public class Discount {
-    @Id
-    private Long id;
+public class Discount extends BaseEntity{
     private String name;
     private BigDecimal discount;
     @Enumerated(value = EnumType.STRING)

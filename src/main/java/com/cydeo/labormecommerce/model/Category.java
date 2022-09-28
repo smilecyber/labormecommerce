@@ -9,8 +9,6 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
-public class Category {
-    @Id
-    private Long id;
+public class Category extends BaseEntity {
     private String name;
 }

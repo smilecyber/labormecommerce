@@ -10,9 +10,7 @@ import javax.persistence.ManyToOne;
 @Entity
 @Getter
 @Setter
-public class CartItem {
-    @Id
-    private Long id;
+public class CartItem extends BaseEntity {
     @ManyToOne
     private Product product;
     private Integer quantity;

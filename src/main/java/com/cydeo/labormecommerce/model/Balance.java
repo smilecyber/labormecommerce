@@ -13,9 +13,7 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
-public class Balance {
-    @Id
-    private Long id;
+public class Balance extends BaseEntity{
     @OneToOne
     private Customer customer;
     private BigDecimal amount;

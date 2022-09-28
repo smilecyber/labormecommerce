@@ -10,9 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Product {
-    @Id
-    private Long id;
+public class Product extends BaseEntity{
     private BigDecimal price;
     private Integer quantity;
     private Integer remainingQuantity;

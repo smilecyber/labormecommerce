@@ -10,12 +10,8 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
-public class Payment {
-    @Id
-    private Long id;
+public class Payment extends BaseEntity{
     private BigDecimal paidPrice;
-    @OneToOne
-    private Orders order;
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 }
