@@ -21,4 +21,5 @@ public class OrderDTO {
     private BigDecimal totalPrice;
     private Long customerId;
     private Long paymentId;
+    private Long id;
 }

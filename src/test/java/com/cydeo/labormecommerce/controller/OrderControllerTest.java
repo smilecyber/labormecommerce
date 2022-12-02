@@ -1,5 +1,7 @@
 package com.cydeo.labormecommerce.controller;
 
+import com.cydeo.labormecommerce.dto.OrderDTO;
+import com.cydeo.labormecommerce.dto.ProductDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -11,6 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -20,6 +25,43 @@ class OrderControllerTest {
 
     @Autowired
     private MockMvc mvc;
+
+    @Test
+    public void createOrder() throws Exception {
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setPaidPrice(BigDecimal.valueOf(23));
+        orderDTO.setCustomerId(1L);
+        orderDTO.setPaymentId(2L);
+        orderDTO.setTotalPrice(BigDecimal.valueOf(234));
+        orderDTO.setCartId(12L);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .post("/api/v1/order")
+                        .content(toJsonString(orderDTO))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.paidPrice").value(BigDecimal.valueOf(23)));
+    }
+
+    @Test
+    public void updateOrder() throws Exception {
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setId(1L);
+        orderDTO.setPaidPrice(BigDecimal.valueOf(23));
+        orderDTO.setCustomerId(1L);
+        orderDTO.setPaymentId(2L);
+        orderDTO.setTotalPrice(BigDecimal.valueOf(234));
+        orderDTO.setCartId(12L);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .put("/api/v1/order")
+                        .content(toJsonString(orderDTO))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.paidPrice").value(BigDecimal.valueOf(23)));
+    }
 
     @Test
     public void getAddressList() throws Exception {
@@ -32,12 +74,24 @@ class OrderControllerTest {
 
 
     @Test
-    public void getCustomerListByName() throws Exception {
+    public void getOrderListByEmail() throws Exception {
 
         ResultActions actions = mvc.perform(MockMvcRequestBuilders
-                .get("/api/v1/order/id")
+                .get("/api/v1/order/email/cpagitt4@slate.com")
                 .accept(MediaType.APPLICATION_JSON));
-        actions.andExpect(status().isOk());
+        actions.andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].size()").value(6));
+    }
+
+
+    @Test
+    public void getOrderListByPaymentMethod() throws Exception {
+
+        ResultActions actions = mvc.perform(MockMvcRequestBuilders
+                .get("/api/v1/order/paymentMethod/BUY_NOW_PAY_LATER")
+                .accept(MediaType.APPLICATION_JSON));
+        actions.andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].size()").value(6));
     }
 
 

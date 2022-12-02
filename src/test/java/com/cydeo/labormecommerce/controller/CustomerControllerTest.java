@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.math.BigDecimal;
 
@@ -36,10 +37,10 @@ class CustomerControllerTest {
 
 
     @Test
-    public void getCustomerListByName() throws Exception {
+    public void getCustomerListByEmail() throws Exception {
 
         ResultActions actions = mvc.perform(MockMvcRequestBuilders
-                .get("/api/v1/customer/name")
+                .get("/api/v1/customer/cpagitt4@slate.com")
                 .accept(MediaType.APPLICATION_JSON));
         actions.andExpect(status().isOk());
     }
@@ -64,6 +65,7 @@ class CustomerControllerTest {
     @Test
     public void updateCustomer() throws Exception {
         CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setId(1L);
         customerDTO.setEmail("email@gmail.com");
         customerDTO.setFirstName("Jack");
         customerDTO.setUserName("jackie");
@@ -75,7 +77,8 @@ class CustomerControllerTest {
                         .content(toJsonString(customerDTO))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk()
+                );
 
     }
 

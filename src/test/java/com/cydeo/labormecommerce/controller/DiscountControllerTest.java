@@ -2,6 +2,7 @@ package com.cydeo.labormecommerce.controller;
 
 import com.cydeo.labormecommerce.dto.CustomerDTO;
 import com.cydeo.labormecommerce.dto.DiscountDTO;
+import com.cydeo.labormecommerce.dto.ProductDTO;
 import com.cydeo.labormecommerce.enums.DiscountType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.math.BigDecimal;
 
@@ -32,7 +34,8 @@ class DiscountControllerTest {
         ResultActions actions = mvc.perform(MockMvcRequestBuilders
                         .get("/api/v1/discount")
                         .accept(MediaType.APPLICATION_JSON));
-                actions.andExpect(status().isOk());
+                actions.andExpect(status().isOk())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].size()").value(4));
     }
 
 
@@ -40,16 +43,18 @@ class DiscountControllerTest {
     public void getDiscountListByName() throws Exception {
 
         ResultActions actions = mvc.perform(MockMvcRequestBuilders
-                .get("/api/v1/discount/name")
+                .get("/api/v1/discount/50 dollar")
                 .accept(MediaType.APPLICATION_JSON));
-        actions.andExpect(status().isOk());
+        actions.andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.name").value("50 dollar"));
+
     }
 
     @Test
     public void createDiscount() throws Exception {
         DiscountDTO discountDTO = new DiscountDTO();
         discountDTO.setDiscount(new BigDecimal(12));
-        discountDTO.setName("get 15");
+        discountDTO.setName("get 152");
         discountDTO.setDiscountType(DiscountType.AMOUNT_BASED);
 
         mvc.perform(MockMvcRequestBuilders
@@ -64,6 +69,7 @@ class DiscountControllerTest {
     @Test
     public void updateDiscount() throws Exception {
         DiscountDTO discountDTO = new DiscountDTO();
+        discountDTO.setId(1L);
         discountDTO.setDiscount(new BigDecimal(12));
         discountDTO.setName("get 12");
         discountDTO.setDiscountType(DiscountType.AMOUNT_BASED);

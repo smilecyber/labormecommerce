@@ -16,4 +16,5 @@ public class DiscountDTO extends BaseEntity {
     private String name;
     private BigDecimal discount;
     private DiscountType discountType;
+    private Long id;
 }

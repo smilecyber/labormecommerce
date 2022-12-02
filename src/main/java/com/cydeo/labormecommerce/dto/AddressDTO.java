@@ -11,9 +11,9 @@ import javax.persistence.ManyToOne;
 @Getter
 @Setter
 public class AddressDTO{
+    private Long id;
     private String name;
     private String zipCode;
     private String street;
-    @ManyToOne
-    private Customer customer;
+    private Long customerId;
 }
